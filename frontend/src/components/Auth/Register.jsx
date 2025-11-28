@@ -20,9 +20,14 @@ const Register = observer(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await authStore.register(formData.email, formData.username, formData.password);
-    if (authStore.isAuthenticated) {
-      navigate('/');
+    try {
+      await authStore.register(formData.email, formData.username, formData.password);
+      await authStore.login(formData.username, formData.password);
+      if (authStore.isAuthenticated) {
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Registration failed:', error);
     }
   };
 

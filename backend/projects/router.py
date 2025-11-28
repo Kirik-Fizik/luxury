@@ -39,7 +39,14 @@ def create_project(
     db.commit()
     db.refresh(db_project)
     
-    return db_project
+    return schemas.ProjectResponse(
+        id=db_project.id,
+        title=db_project.title,
+        description=db_project.description,
+        project_url=db_project.project_url,
+        user_id=db_project.user_id,
+        created_at=db_project.created_at
+    )
 
 @router.get("/", response_model=List[schemas.ProjectWithUser])
 def get_projects(db: Session = Depends(get_db)):
@@ -75,4 +82,15 @@ def get_my_projects(token: str, db: Session = Depends(get_db)):
         )
     
     projects = db.query(models.Project).filter(models.Project.user_id == user.id).all()
-    return projects
+    result = []
+    for project in projects:
+        project_data = schemas.ProjectResponse(
+            id=project.id,
+            title=project.title,
+            description=project.description,
+            project_url=project.project_url,
+            user_id=project.user_id,
+            created_at=project.created_at
+        )
+        result.append(project_data)
+    return result

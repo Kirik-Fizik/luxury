@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import timedelta
-from fastapi.security import OAuth2PasswordRequestForm
 
 from database.connection import get_db
 from auth import models, schemas, utils
@@ -35,16 +34,19 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_user)
     
-    return db_user
+    return schemas.UserResponse(
+        id=db_user.id,
+        email=db_user.email,
+        username=db_user.username,
+        is_active=db_user.is_active,
+        created_at=db_user.created_at
+    )
 
 @router.post("/login", response_model=schemas.Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    username = form_data.username
-    password = form_data.password
+def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
+    db_user = db.query(models.User).filter(models.User.username == user.username).first()
 
-    db_user = db.query(models.User).filter(models.User.username == username).first()
-
-    if not db_user or not utils.verify_password(password, db_user.hashed_password):
+    if not db_user or not utils.verify_password(user.password, db_user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password"
@@ -73,4 +75,10 @@ def get_current_user(token: str, db: Session = Depends(get_db)):
             detail="User not found"
         )
     
-    return user
+    return schemas.UserResponse(
+        id=user.id,
+        email=user.email,
+        username=user.username,
+        is_active=user.is_active,
+        created_at=user.created_at
+    )
