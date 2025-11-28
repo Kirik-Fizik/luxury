@@ -21,7 +21,7 @@ const Profile = observer(() => {
       <header className="profile-header">
         <div className="header-content">
           <Link to="/" className="back-btn">← Back to Home</Link>
-          <h1>👤 Your Profile</h1>
+          <h1>Your Profile</h1>
           <div></div>
         </div>
       </header>

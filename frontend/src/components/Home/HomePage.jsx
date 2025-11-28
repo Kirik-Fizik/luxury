@@ -29,7 +29,7 @@ const HomePage = observer(() => {
     <div className="home-page">
       <header className="home-header">
         <div className="header-content">
-          <h1>🚀 Startup Flow</h1>
+          <h1>Startup Flow</h1>
           <div className="header-actions">
             {authStore.isAuthenticated ? (
               <div className="user-section">
@@ -61,13 +61,13 @@ const HomePage = observer(() => {
         <div className="actions-section">
           <div className="action-cards">
             <div className="action-card">
-              <h3>🔍 Browse Projects</h3>
+              <h3>Browse Projects</h3>
               <p>Explore the latest startup innovations</p>
               <button className="action-btn">View All Projects</button>
             </div>
 
             <div className="action-card">
-              <h3>⭐ Top Rated</h3>
+              <h3>Top Rated</h3>
               <p>See the most popular projects</p>
               <button className="action-btn">See Rankings</button>
             </div>
@@ -75,7 +75,7 @@ const HomePage = observer(() => {
             {authStore.isAuthenticated && (
               <>
                 <div className="action-card">
-                  <h3>➕ Add Project</h3>
+                  <h3>Add Project</h3>
                   <p>Share your own startup with the community</p>
                   <button 
                     className="action-btn primary"
@@ -85,7 +85,7 @@ const HomePage = observer(() => {
                   </button>
                 </div>
                 <div className="action-card">
-                  <h3>📊 Analytics</h3>
+                  <h3>Analytics</h3>
                   <p>Track your project performance</p>
                   <button className="action-btn">View Stats</button>
                 </div>
@@ -109,7 +109,7 @@ const HomePage = observer(() => {
                   className="btn primary"
                   onClick={handleAddProjectClick}
                 >
-                  ➕ Add First Project
+                  Add First Project
                 </button>
               )}
             </div>
