@@ -3,15 +3,14 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from database.connection import Base
 
-class Project(Base):
-    __tablename__ = "projects"
+class Comment(Base):
+    __tablename__ = "comments"
     
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    description = Column(Text, nullable=False)
-    project_url = Column(String, nullable=False)
+    content = Column(Text, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     
-    user = relationship("User", back_populates="projects")
-    comments = relationship("Comment", back_populates="project", cascade="all, delete-orphan")
+    user = relationship("User", back_populates="comments")
+    project = relationship("Project", back_populates="comments")
